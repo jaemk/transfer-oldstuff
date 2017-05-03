@@ -1,0 +1,33 @@
+<html>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <head>
+        <link rel="short icon" type="image/x-con" href="/static/favicon.ico">
+        <link rel="stylesheet" href="/static/css/base.css">
+        <title> Transfer </title>
+
+        {% block head_extra %}
+        {% endblock head_extra %}
+    </head>
+
+    <body>
+        <div id="header">
+            <div id="header-row">
+                <div id="header-left">
+                    <span id="header-title" onclick="window.location.href='/'"> Transfer </span>
+                    {% block title_extra %}
+                    {% endblock title_extra %}
+                </div>
+                <div id="header-extra">
+                    {% block header_extra %}
+                    {% endblock header_extra %}
+                </div>
+            </div>
+        </div>
+
+        <div id="content">
+            {% block content %}
+            {% endblock content %}
+        </div>
+    </body>
+</html>

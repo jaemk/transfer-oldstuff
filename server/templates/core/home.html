@@ -1,0 +1,65 @@
+{% extends "core/base.html" %}
+
+
+{% block content %}
+<div>
+    Hello, {{ name }}
+
+    <br/><br/>
+    <input name="file" id="file" type="file">
+    <button id="upload" type="submit"> Upload </button>
+</div>
+<script>
+(function(){
+    var upload = document.getElementById('upload');
+    var file = document.getElementById('file');
+
+    let c = window.crypto;
+    let iv = c.getRandomValues(new Uint8Array(16));
+    let alg = {name: 'AES-CBC', iv};
+    let pass = new TextEncoder().encode('password');
+
+
+    function uploadBytes(bytes, filename) {
+        var request = new XMLHttpRequest();
+        request.open("POST", '/upload', true);
+        request.onreadystatechange = function() {
+            if (request.readyState !== XMLHttpRequest.DONE || request.status !== 200) { return; }
+            var resp = request.responseText;
+            var respData = JSON.parse(resp);
+            alert("Got: " + resp);
+        }
+        var data = {bytes: bytes, iv: Array.from(iv)};
+        request.send(JSON.stringify(data));
+    }
+
+    function encFile(file) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var data = e.target.result;
+            c.subtle.digest('SHA-256', pass).then((hash) => {
+                c.subtle.importKey('raw', hash, alg, false, ['encrypt', 'decrypt']).then((key) => {
+                    c.subtle.encrypt(alg, key, data)
+                        .then((encrypted) => {
+                            console.log(encrypted.byteLength);
+                            let bytes = new Uint8Array(encrypted);
+                            let array = Array.from(bytes);
+                            uploadBytes(array, file.name);
+                        });
+                        //.then((bytes) => c.subtle.decrypt(alg, key, bytes))
+                        //.then((dec) => {
+                        //    let s = new TextDecoder().decode(dec);
+                        //    console.log(s);
+                        //})
+                });
+            });
+        }
+        reader.readAsArrayBuffer(file);
+    }
+
+    upload.addEventListener('click', function(e) {
+        var encrypted = encFile(file.files[0]);
+    });
+})();
+</script>
+{% endblock content %}
