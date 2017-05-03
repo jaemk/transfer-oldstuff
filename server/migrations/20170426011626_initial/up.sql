@@ -1,7 +1,8 @@
 create table items (
     id              serial PRIMARY KEY,
-    key             text UNIQUE NOT NULL,
-    filepath        text NOT NULL,
+    unique_key      text NOT NULL,
+    iv              bytea NOT NULL,
+    bytes           bytea NOT NULL,
     lifespan        bigint,
     dl_limit        integer,
     accesses        integer NOT NULL DEFAULT 0,
