@@ -50,8 +50,7 @@ impl BeforeMiddleware for InfoLog {
 
 pub fn establish_connection_pool(database_url: Option<&str>) -> PgPool {
     let db_url = match database_url {
-        Some(url) => url.into(),
-        None => {
+        Some(url) => url.into(), None => {
             dotenv().ok();
             env::var("DATABASE_URL")
                 .expect("DATABASE_URL must be set")
@@ -90,6 +89,6 @@ pub fn start(host: &str, db_url: Option<&str>, log: bool) {
     mount.mount("/", chain)
          .mount("/static/", Static::new(Path::new("static")));
 
-    println!(" ** Service at {} **", host);
+    println!(" ** Serving at {} **", host);
     Iron::new(mount).http(host).unwrap();
 }
