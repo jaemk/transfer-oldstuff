@@ -3,6 +3,8 @@ create table items (
     unique_key      text NOT NULL,
     iv              bytea NOT NULL,
     bytes           bytea NOT NULL,
+    confirm         bytea NOT NULL,
+    filename        bytea,
     lifespan        bigint,
     dl_limit        integer,
     accesses        integer NOT NULL DEFAULT 0,
