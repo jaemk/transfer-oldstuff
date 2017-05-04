@@ -1,7 +1,7 @@
 {% extends "core/base.html" %}
 
 {% block head_extra %}
-    <script src="/static/js/upload.js"></script>
+    <script src="/static/js/download.js"></script>
 {% endblock head_extra %}
 
 
@@ -11,15 +11,16 @@
 
     <br/><br/>
 
+    access_key: <input id="access_key" type="text">
+    <br/>
+
     encryption password: <input id="encryption_pass" type="text">
     <br/>
 
     access password: <input id="access_pass" type="text">
     <br/>
 
-    file: <input name="file" id="file" type="file">
-    <br/>
 
-    <button id="upload" type="submit"> Upload </button>
+    <button id="download" type="submit"> Download </button>
 </div>
 {% endblock content %}
